@@ -1,14 +1,13 @@
 import { NextResponse, type NextRequest } from 'next/server'
 
-// Bảo vệ toàn bộ web bằng 1 mật khẩu chung cho cả nhà (HTTP Basic Auth).
-// Đặt SITE_PASSWORD (và tuỳ chọn SITE_USER) trong Environment Variables của Vercel.
+// Mật khẩu là TUỲ CHỌN.
+// - Không đặt SITE_PASSWORD trên Vercel  → web mở tự do, không hỏi đăng nhập.
+// - Đặt SITE_PASSWORD (và tuỳ chọn SITE_USER) → bật lại ô đăng nhập cho cả nhà.
 export function middleware(req: NextRequest) {
   const password = process.env.SITE_PASSWORD
-  if (!password) {
-    return new NextResponse('Chưa cấu hình SITE_PASSWORD trên server.', { status: 500 })
-  }
-  const user = process.env.SITE_USER || 'giadinh'
+  if (!password) return NextResponse.next()
 
+  const user = process.env.SITE_USER || 'giadinh'
   const header = req.headers.get('authorization')
   if (header?.startsWith('Basic ')) {
     const [u, p] = atob(header.slice(6)).split(':')
@@ -22,6 +21,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  // Áp dụng cho mọi trang và API, trừ file tĩnh của Next và manifest
   matcher: ['/((?!_next/static|_next/image|favicon.ico|manifest.json).*)'],
 }
