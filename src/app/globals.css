@@ -4,9 +4,11 @@
 
 * {
   -webkit-tap-highlight-color: transparent;
+  font-family: Tahoma, Verdana, sans-serif;
 }
 
 body {
   background: linear-gradient(135deg, #9bb5e2 0%, #bad6f4 50%, #c6f3fa 100%);
+  font-family: Tahoma, Verdana, sans-serif;
   @apply text-slate-800 min-h-screen;
 }
