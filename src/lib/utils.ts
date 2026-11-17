@@ -32,35 +32,35 @@ export const STATUS_LABEL: Record<string, string> = {
 }
 
 export const STATUS_COLOR: Record<string, string> = {
-  chua: 'bg-[#eef7fb] text-[#0077a8]',
-  dat: 'bg-amber-100 text-amber-800',
-  tra: 'bg-[#0077a8] text-white',
+  chua: 'bg-[#f4efe6] text-[#6e5a44] border border-[#e2d3bc]',
+  dat: 'bg-[#fdf3dc] text-[#94621b] border border-[#e6c687]',
+  tra: 'bg-[#3a2618] text-[#f3dfb6] border border-[#8c6239]',
 }
 
 export const CAT_STYLE: Record<string, { icon: string; badge: string; headerBg: string }> = {
   'Cố định': {
     icon: '🏨',
-    badge: 'bg-[#0077a8] text-white',
-    headerBg: 'bg-[#eef7fb]',
+    badge: 'bg-[#3a2618] text-[#f3dfb6]',
+    headerBg: 'bg-[#f5efe4]',
   },
   'Vé tham quan': {
     icon: '🎡',
-    badge: 'bg-[#0077a8] text-white',
-    headerBg: 'bg-[#eef7fb]',
+    badge: 'bg-[#8c6239] text-white',
+    headerBg: 'bg-[#f5efe4]',
   },
   'Ăn uống': {
     icon: '🍜',
-    badge: 'bg-[#0077a8] text-white',
-    headerBg: 'bg-[#eef7fb]',
+    badge: 'bg-[#9a6f38] text-white',
+    headerBg: 'bg-[#f5efe4]',
   },
   'Đi lại': {
     icon: '🚇',
-    badge: 'bg-[#0077a8] text-white',
-    headerBg: 'bg-[#eef7fb]',
+    badge: 'bg-[#5c3d24] text-[#f3dfb6]',
+    headerBg: 'bg-[#f5efe4]',
   },
   'Phát sinh': {
     icon: '🛍️',
-    badge: 'bg-[#0077a8] text-white',
-    headerBg: 'bg-[#eef7fb]',
+    badge: 'bg-[#734f2c] text-white',
+    headerBg: 'bg-[#f5efe4]',
   },
 }

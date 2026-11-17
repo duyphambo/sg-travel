@@ -7,8 +7,12 @@
   font-family: Tahoma, Verdana, sans-serif;
 }
 
+html,
 body {
-  background: linear-gradient(135deg, #9bb5e2 0%, #bad6f4 50%, #c6f3fa 100%);
+  margin: 0;
+  padding: 0;
+  background-color: #faf7f2;
+  color: #2b1c12;
   font-family: Tahoma, Verdana, sans-serif;
-  @apply text-slate-800 min-h-screen;
+  min-height: 100vh;
 }
