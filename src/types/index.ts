@@ -62,6 +62,10 @@ export interface ItineraryItem {
   replaces: string | null
   note: string | null
   order_num: number
+  directions?: string | null
+  map_query?: string | null
+  done?: boolean
+  spent_sgd?: number | null
 }
 
 // Summary tính toán phía client

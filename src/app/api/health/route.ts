@@ -41,6 +41,12 @@ export async function GET() {
     result.trips = trips.error ? `LỖI: ${trips.error.message}` : trips.data
     result.so_khoan_chi = costs.error ? `LỖI: ${costs.error.message}` : costs.count
     result.so_muc_lich_trinh = itin.error ? 'CHƯA CÓ: chạy 003_itinerary.sql' : itin.count
+    if (!itin.error) {
+      const extras = await sb.from('itinerary').select('id').not('map_query', 'is', null).limit(1)
+      result.chi_duong_va_da_di = extras.error
+        ? 'CHƯA CÓ: chạy 004_itinerary_extras.sql'
+        : (extras.data?.length ? 'đã bật' : 'CHƯA CÓ: chạy 004_itinerary_extras.sql')
+    }
   }
 
   const tripsOk = Array.isArray(result.trips) && (result.trips as unknown[]).length > 0
@@ -54,7 +60,9 @@ export async function GET() {
           ? 'Kết nối đúng nhưng bảng trips trống: chạy lại setup_all.sql trong SQL Editor.'
           : typeof result.so_muc_lich_trinh === 'string'
             ? 'Chi phí đã ổn. Còn thiếu lịch trình: chạy 003_itinerary.sql trong SQL Editor.'
-            : 'Mọi thứ đều ổn.'
+            : typeof result.chi_duong_va_da_di === 'string' && result.chi_duong_va_da_di !== 'đã bật'
+              ? 'Lịch trình đã có. Còn thiếu chỉ đường / đã đi / tiền SGD: chạy 004_itinerary_extras.sql.'
+              : 'Mọi thứ đều ổn.'
 
   return NextResponse.json(result, { headers: { 'Cache-Control': 'no-store' } })
 }
