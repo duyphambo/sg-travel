@@ -44,6 +44,26 @@ export interface Receipt {
   created_at: string
 }
 
+export type ItineraryPlan = 'nang' | 'mua'
+export type PlaceKind = 'Trong nhà' | 'Có mái che' | 'Ngoài trời'
+
+export interface ItineraryItem {
+  id: number
+  trip_id: string
+  plan: ItineraryPlan
+  day: number
+  day_label: string
+  time_label: string
+  title: string
+  detail: string | null
+  kind: PlaceKind | null
+  transport: string | null
+  rain_tip: string | null
+  replaces: string | null
+  note: string | null
+  order_num: number
+}
+
 // Summary tính toán phía client
 export interface TripSummary {
   budget: number

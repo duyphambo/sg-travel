@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { supabaseEnv } from '@/lib/supabase'
 
 export const dynamic = 'force-dynamic'
 
@@ -24,8 +25,7 @@ function describeKey(key: string | undefined): { kind: string; ok: boolean } {
 }
 
 export async function GET() {
-  const url = process.env.SUPABASE_URL
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY
+  const { url, key } = supabaseEnv()
   const keyInfo = describeKey(key)
 
   const result: Record<string, unknown> = {
@@ -37,8 +37,10 @@ export async function GET() {
     const sb = createClient(url, key, { auth: { persistSession: false } })
     const trips = await sb.from('trips').select('id, slug, name')
     const costs = await sb.from('costs').select('id', { count: 'exact', head: true })
+    const itin = await sb.from('itinerary').select('id', { count: 'exact', head: true })
     result.trips = trips.error ? `LỖI: ${trips.error.message}` : trips.data
     result.so_khoan_chi = costs.error ? `LỖI: ${costs.error.message}` : costs.count
+    result.so_muc_lich_trinh = itin.error ? 'CHƯA CÓ: chạy 003_itinerary.sql' : itin.count
   }
 
   const tripsOk = Array.isArray(result.trips) && (result.trips as unknown[]).length > 0
@@ -50,7 +52,9 @@ export async function GET() {
         ? 'Kết nối được nhưng truy vấn lỗi: kiểm tra đã chạy setup_all.sql đúng project chưa.'
         : !tripsOk
           ? 'Kết nối đúng nhưng bảng trips trống: chạy lại setup_all.sql trong SQL Editor.'
-          : 'Mọi thứ đều ổn.'
+          : typeof result.so_muc_lich_trinh === 'string'
+            ? 'Chi phí đã ổn. Còn thiếu lịch trình: chạy 003_itinerary.sql trong SQL Editor.'
+            : 'Mọi thứ đều ổn.'
 
   return NextResponse.json(result, { headers: { 'Cache-Control': 'no-store' } })
 }

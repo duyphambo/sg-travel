@@ -3,7 +3,10 @@ import { use, useCallback, useEffect, useState } from 'react'
 import { computeSummary, CAT_ORDER } from '@/lib/utils'
 import SummaryCards from '@/components/SummaryCards'
 import CostTable from '@/components/CostTable'
+import ItineraryView from '@/components/ItineraryView'
 import type { Trip, Cost } from '@/types'
+
+type View = 'lich' | 'chiphi'
 
 type Filter = 'all' | 'chua' | 'dat' | 'tra'
 const FILTER_LABEL: Record<Filter, string> = { all: 'Tất cả', chua: 'Chưa chi', dat: 'Đã đặt', tra: 'Đã trả' }
@@ -13,6 +16,7 @@ export default function TripPage({ params }: { params: Promise<{ slug: string }>
   const [trip, setTrip] = useState<Trip | null>(null)
   const [costs, setCosts] = useState<Cost[]>([])
   const [error, setError] = useState('')
+  const [view, setView] = useState<View>('lich')
   const [filter, setFilter] = useState<Filter>('all')
   const [addOpen, setAddOpen] = useState(false)
   const [newLabel, setNewLabel] = useState('')
@@ -97,6 +101,20 @@ export default function TripPage({ params }: { params: Promise<{ slug: string }>
 
         {error && <p className="mb-3 rounded-lg bg-red-50 border border-red-200 px-3 py-2 text-sm text-red-700">{error}</p>}
 
+        <div className="sticky top-0 z-10 -mx-4 px-4 py-2 mb-4 bg-gray-50/95 backdrop-blur">
+          <div className="grid grid-cols-2 rounded-xl bg-gray-200 p-1" role="tablist">
+            {([['lich', '🗓️ Lịch trình'], ['chiphi', '💰 Chi phí']] as [View, string][]).map(([v, label]) => (
+              <button key={v} role="tab" aria-selected={view === v} onClick={() => setView(v)}
+                className={`rounded-lg py-2 text-sm font-semibold ${view === v ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500'}`}>
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {view === 'lich' && <ItineraryView trip={trip} />}
+
+        {view === 'chiphi' && (<>
         <SummaryCards s={summary} />
 
         <div className="flex gap-2 mb-3 flex-wrap">
@@ -129,6 +147,7 @@ export default function TripPage({ params }: { params: Promise<{ slug: string }>
         <CostTable costs={filtered} rate={trip.rate} onUpdate={handleUpdate} />
 
         <p className="text-xs text-gray-400 text-center mt-6">Bấm vào dòng để sửa · Nhập 42s = 42 SGD tự quy đổi · Tự làm mới mỗi 15 giây</p>
+        </>)}
       </div>
     </div>
   )
