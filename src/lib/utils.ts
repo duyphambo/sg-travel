@@ -32,7 +32,35 @@ export const STATUS_LABEL: Record<string, string> = {
 }
 
 export const STATUS_COLOR: Record<string, string> = {
-  chua: 'bg-gray-100 text-gray-600',
-  dat: 'bg-amber-100 text-amber-700',
-  tra: 'bg-green-100 text-green-700',
+  chua: 'bg-[#eef7fb] text-[#0077a8]',
+  dat: 'bg-amber-100 text-amber-800',
+  tra: 'bg-[#0077a8] text-white',
+}
+
+export const CAT_STYLE: Record<string, { icon: string; badge: string; headerBg: string }> = {
+  'Cố định': {
+    icon: '🏨',
+    badge: 'bg-[#0077a8] text-white',
+    headerBg: 'bg-[#eef7fb]',
+  },
+  'Vé tham quan': {
+    icon: '🎡',
+    badge: 'bg-[#0077a8] text-white',
+    headerBg: 'bg-[#eef7fb]',
+  },
+  'Ăn uống': {
+    icon: '🍜',
+    badge: 'bg-[#0077a8] text-white',
+    headerBg: 'bg-[#eef7fb]',
+  },
+  'Đi lại': {
+    icon: '🚇',
+    badge: 'bg-[#0077a8] text-white',
+    headerBg: 'bg-[#eef7fb]',
+  },
+  'Phát sinh': {
+    icon: '🛍️',
+    badge: 'bg-[#0077a8] text-white',
+    headerBg: 'bg-[#eef7fb]',
+  },
 }
